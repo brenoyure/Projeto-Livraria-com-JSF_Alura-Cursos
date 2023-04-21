@@ -2,20 +2,20 @@ package br.com.caelum.livraria.dao;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
-@Stateless
-public class DAO<T> {
+public abstract class DAO<T> {
 
-	@PersistenceContext
 	private EntityManager em;
 	
 	private Class<T> classe;
 
+	public DAO() {
+		
+	}
+	
 	public void adiciona(T t) {
 		em.persist(t);
 	}
@@ -29,8 +29,9 @@ public class DAO<T> {
 	}
 
 	public List<T> listaTodos() {
+		System.err.println("LISTANDO...");
 		CriteriaQuery<T> query = em.getCriteriaBuilder().createQuery(classe);
-		query.select(query.from(classe));
+		query.from(classe);
 		return em.createQuery(query).getResultList();
 	}
 
