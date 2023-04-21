@@ -1,14 +1,18 @@
 package br.com.caelum.livraria.modelo;
 
+import static java.util.Calendar.getInstance;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -27,7 +31,9 @@ public class Livro {
 	private String titulo;
 	private String isbn;
 	private double preco;
-	private String dataLancamento;
+	
+	@Temporal(TemporalType.DATE)
+	private Calendar dataLancamento = getInstance();
 
 	@ManyToMany
 	private List<Autor> autores = new ArrayList<>();

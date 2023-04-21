@@ -3,6 +3,10 @@ package br.com.caelum.livraria.bean;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -20,15 +24,15 @@ public class LivroBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Getter @Setter
+	@Getter	@Setter
 	private Integer autorId;
-	
+
 	@Getter
 	private Livro livro = new Livro();
 
 	@Inject
 	private LivroDAO livroDao;
-	
+
 	@Inject
 	private AutorDAO autorDao;
 
@@ -36,7 +40,10 @@ public class LivroBean implements Serializable {
 		System.out.println("Gravando livro " + this.livro.getTitulo());
 
 		if (livro.getAutores().isEmpty()) {
-			throw new RuntimeException("Livro deve ter pelo menos um Autor.");
+//			throw new RuntimeException("Livro deve ter pelo menos um Autor.");
+			FacesContext.getCurrentInstance().addMessage("autor", new FacesMessage("Livro deve ter pelo menos um Autor."));
+			
+			return;
 		}
 
 		livroDao.adiciona(this.livro);
@@ -49,6 +56,18 @@ public class LivroBean implements Serializable {
 
 	public List<Autor> getAutoresDoLivro() {
 		return this.livro.getAutores();
+	}
+
+	public List<Livro> getLivrosCadastrados() {
+		return livroDao.listaTodos();
+	}
+
+	public void comecaComDigitoUm(FacesContext fc, UIComponent component, Object value) throws ValidatorException {
+		String valor = value.toString();
+
+		if (!valor.startsWith("1"))
+			throw new ValidatorException(new FacesMessage("ISBN deve começar com número 1."));
+
 	}
 
 }
