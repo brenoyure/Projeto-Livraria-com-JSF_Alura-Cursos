@@ -9,7 +9,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
 import br.com.caelum.livraria.modelo.Livro;
-import br.com.caelum.livraria.modelo.Autor;
 
 @Stateless
 public class LivroDAO {
@@ -38,8 +37,8 @@ public class LivroDAO {
 				.getResultList();
 	}
 
-	public Autor buscaPorId(Integer id) {
-		return em.find(Autor.class, id);
+	public Livro buscaPorId(Integer id) {
+		return em.find(Livro.class, id);
 	}
 
 	public long contaTodos() {
