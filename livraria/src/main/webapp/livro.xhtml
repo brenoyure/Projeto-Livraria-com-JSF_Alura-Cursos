@@ -4,10 +4,12 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+<h:head />
+
 <h:body>
 	<h1>Novo Livro</h1>
 
-		<h:messages />
+		<h:messages id="mensagens" />
 
 	<h:form>
 		<fieldset>
@@ -15,12 +17,18 @@
 			<h:panelGrid columns="2">
 
 				<h:outputLabel value="Titulo:" for="titulo" />
-				<h:inputText required="true" id="titulo" value="#{livroBean.livro.titulo}">
+				<h:inputText id="titulo" required="true" value="#{livroBean.livro.titulo}" 
+								requiredMessage="O Título é obrigatório." 
+								validatorMessage="Cumprimento máximo para o Título é de 40 caracteres.">
 					<f:validateLength maximum="40" />
+					<f:ajax execute="titulo" event="blur" render="mensagens" />
 				</h:inputText>
 
 				<h:outputLabel value="ISBN:" for="isbn" />
-				<h:inputText required="true" id="isbn" value="#{livroBean.livro.isbn}" validator="#{livroBean.comecaComDigitoUm}"/>
+				<h:inputText id="isbn" required="true" value="#{livroBean.livro.isbn}" requiredMessage="O ISBN é obrigatório." validator="#{livroBean.comecaComDigitoUm}" >
+					<f:ajax execute="isbn" event="blur"	 render="mensagens" />
+					<f:ajax execute="isbn" event="keyup" render="mensagens" />
+				</h:inputText>
 
 				<h:outputLabel value="Preço:" for="preco" />
 				<h:inputText required="true" id="preco" value="#{livroBean.livro.preco}" validatorMessage="Preço Mínimo de R$1,00 e máximo de R$1000,00" >
@@ -40,17 +48,23 @@
 				<h:selectOneMenu value="#{livroBean.autorId}" id="autor" >
 					<f:selectItems value="#{autorBean.autores}" var="autor" itemLabel="#{autor.nome}" itemValue="#{autor.id}" />
 				</h:selectOneMenu>
-				<h:commandButton value="Gravar Autor" action="#{livroBean.gravarAutor}" />
+				<h:commandButton value="Gravar Autor" action="#{livroBean.gravarAutor}">
+					<f:ajax execute="autor" render="tabelaAutores" />
+				</h:commandButton>
 				
-				<h:dataTable value="#{livroBean.autoresDoLivro}" var="autor" >
+				<h:commandLink value="Cadastrar novo autor" action="autor" />
+				
+				<h:dataTable value="#{livroBean.autoresDoLivro}" var="autor" id="tabelaAutores" >
 					<h:column>
 						<h:outputText value="#{autor.nome}" />
 					</h:column>
 				</h:dataTable>
 		</fieldset>
 
-		<h:commandButton value="Gravar" action="#{livroBean.gravar}" />
-
+		<h:commandButton value="Gravar" action="#{livroBean.gravar}" >
+			<f:ajax execute="@form" render="@form :tabelaLivros" />
+		</h:commandButton>
+		
 	</h:form>
 
 	<fieldset>
@@ -63,7 +77,9 @@
 			
 			<h:column>
 				<f:facet name="header">Preço</f:facet>
-				<h:outputText value="#{livro.preco}"/>
+				<h:outputText value="#{livro.preco}" >
+					<f:convertNumber locale="pt_BR" type="currency" currencySymbol="R$" pattern="R$ #0.00" currencyCode="BRL" />
+				</h:outputText>
 			</h:column>
 			
 			<h:column>
