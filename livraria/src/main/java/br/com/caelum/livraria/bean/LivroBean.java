@@ -70,4 +70,12 @@ public class LivroBean implements Serializable {
 
 	}
 
+	/**
+	 * Redireciona para o formulário de cadastro do Autor.
+	 * @return autor.xhtml
+	 */
+	public String formAutor() {
+		return "autor";
+	}
+
 }
