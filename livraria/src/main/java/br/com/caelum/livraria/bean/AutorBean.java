@@ -9,13 +9,14 @@ import javax.inject.Named;
 
 import br.com.caelum.livraria.dao.AutorDAO;
 import br.com.caelum.livraria.modelo.Autor;
+import br.com.caelum.livraria.util.RedirectView;
 
 @Named
 @RequestScoped
 public class AutorBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public Autor getAutor() {
 		return autor;
 	}
@@ -24,14 +25,15 @@ public class AutorBean implements Serializable {
 
 	@Inject
 	private AutorDAO autorDao;
-	
-	public void gravar() {
+
+	public RedirectView gravar() {
 		System.out.println("Gravando autor " + this.autor.getNome());
 		autorDao.adiciona(this.autor);
+		return new RedirectView("livro");
 	}
-	
+
 	public List<Autor> getAutores() {
 		return autorDao.listaTodos();
 	}
-	
+
 }

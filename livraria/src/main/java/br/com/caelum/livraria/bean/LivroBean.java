@@ -15,6 +15,7 @@ import br.com.caelum.livraria.dao.AutorDAO;
 import br.com.caelum.livraria.dao.LivroDAO;
 import br.com.caelum.livraria.modelo.Autor;
 import br.com.caelum.livraria.modelo.Livro;
+import br.com.caelum.livraria.util.ForwardView;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,17 +37,19 @@ public class LivroBean implements Serializable {
 	@Inject
 	private AutorDAO autorDao;
 
-	public void gravar() {
-		System.out.println("Gravando livro " + this.livro.getTitulo());
+	public ForwardView gravar() {
+
 
 		if (livro.getAutores().isEmpty()) {
 //			throw new RuntimeException("Livro deve ter pelo menos um Autor.");
 			FacesContext.getCurrentInstance().addMessage("autor", new FacesMessage("Livro deve ter pelo menos um Autor."));
-			
-			return;
+			return new ForwardView("livro");
 		}
 
 		livroDao.adiciona(this.livro);
+		System.out.println("Gravando livro " + this.livro.getTitulo());
+		this.livro = new Livro();
+		return new ForwardView("livro");
 	}
 
 	public void gravarAutor() {
