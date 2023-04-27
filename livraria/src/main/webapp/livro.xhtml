@@ -62,7 +62,15 @@
 						<h:column>
 							<h:outputText value="#{autor.nome}" />
 						</h:column>
+						
+						<h:column>
+							<h:commandLink value="X" action="#{livroBean.removerAutorDoLivro(autor)}" >
+								<f:ajax render="formCadastroLivro" />
+							</h:commandLink>
+						</h:column>
+						
 					</h:dataTable>
+					
 			</fieldset>
 	
 			<h:commandButton value="Gravar" action="#{livroBean.gravar}" >

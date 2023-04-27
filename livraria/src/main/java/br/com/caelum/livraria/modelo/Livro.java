@@ -4,9 +4,9 @@ import static java.util.Calendar.getInstance;
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,7 +36,7 @@ public class Livro {
 	private Calendar dataLancamento = getInstance();
 
 	@ManyToMany
-	private List<Autor> autores = new ArrayList<>();
+	private Set<Autor> autores = new LinkedHashSet<>();
 
 	public void adicionaAutor(Autor autor) {
 		this.autores.add(autor);

@@ -2,6 +2,7 @@ package br.com.caelum.livraria.bean;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -60,6 +61,10 @@ public class LivroBean implements Serializable {
 		livroDao.remove(livro);
 	}
 	
+	public void removerAutorDoLivro(Autor autor) {
+		this.livro.removerAutor(autor);
+	}
+	
 	public void exibir(Livro livro) {
 		this.livro = livroDao.buscaPorId(livro.getId());
 	}
@@ -69,7 +74,7 @@ public class LivroBean implements Serializable {
 		livro.adicionaAutor(autor);
 	}
 
-	public List<Autor> getAutoresDoLivro() {
+	public Set<Autor> getAutoresDoLivro() {
 		return this.livro.getAutores();
 	}
 

@@ -8,21 +8,45 @@
 <ui:composition template="/_template.xhtml">
 
 	<ui:define name="titulo">
-		Novo Autor
+		Autores
 	</ui:define>
 
 	<ui:define name="conteudo">
 
-		<h:form>
+		<h:form id="formAutor">
 			<fieldset>
 				<legend>Dados do Autor</legend>
 				<h:panelGrid columns="2">
 					<h:outputLabel value="Nome:" for="nome" />
-					<h:inputText id="nome" value="#{autorBean.autor.nome}" />
-					<h:commandButton value="Gravar" action="#{autorBean.gravar}" />
+					<h:inputText required="true" id="nome" value="#{autorBean.autor.nome}" requiredMessage="Nome do Autor é obrigatório." />
+					<h:commandButton value="Gravar" action="#{autorBean.gravar}" >
+						<f:ajax execute="@form" render="mensagens" />
+					</h:commandButton>
 				</h:panelGrid>
 			</fieldset>
 		</h:form>
+		
+		<fieldset>
+			<legend>Autores Cadastrados</legend>
+			<h:dataTable id="tabelaAutores" value="#{autorBean.autores}" var="autor">
+				<h:column>
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{autor.nome}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Exibir</f:facet>
+					<h:commandLink action="#{autorBean.exibir(autor)}" value="Exibir">
+						<f:ajax render=":formAutor" />
+					</h:commandLink>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Remover</f:facet>
+					<h:commandLink value="X" action="#{autorBean.remover(autor)}">
+						<f:ajax render="@all" />
+					</h:commandLink>
+				</h:column>
+			</h:dataTable>
+		</fieldset>
 
 	</ui:define>
 

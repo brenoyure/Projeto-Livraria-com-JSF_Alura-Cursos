@@ -17,22 +17,36 @@ public class AutorBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public Autor getAutor() {
-		return autor;
-	}
-
 	private Autor autor = new Autor();
 
 	@Inject
 	private AutorDAO autorDao;
 
 	public RedirectView gravar() {
-		autorDao.adiciona(this.autor);
+
+		if (autor.getId() == null)
+			autorDao.adiciona(this.autor);
+
+		else
+			autorDao.atualiza(autor);
+
 		return new RedirectView("livro");
 	}
 
 	public List<Autor> getAutores() {
 		return autorDao.listaTodos();
+	}
+
+	public void exibir(Autor autor) {
+		this.autor = autor;
+	}
+
+	public void remover(Autor autor) {
+		autorDao.remove(autor);
+	}
+
+	public Autor getAutor() {
+		return autor;
 	}
 
 }
