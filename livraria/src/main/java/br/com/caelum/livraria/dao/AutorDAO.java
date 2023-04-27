@@ -41,6 +41,10 @@ public class AutorDAO {
 	public Autor buscaPorId(Integer id) {
 		return em.find(Autor.class, id);
 	}
+	
+	public Autor buscaRefPorId(Integer id) {
+		return em.merge(em.getReference(Autor.class, id));
+	}
 
 	public long contaTodos() {
 		CriteriaBuilder		cb	= em.getCriteriaBuilder();

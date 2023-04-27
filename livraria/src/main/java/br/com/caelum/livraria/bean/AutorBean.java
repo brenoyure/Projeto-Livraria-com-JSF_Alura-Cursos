@@ -27,7 +27,6 @@ public class AutorBean implements Serializable {
 	private AutorDAO autorDao;
 
 	public RedirectView gravar() {
-		System.out.println("Gravando autor " + this.autor.getNome());
 		autorDao.adiciona(this.autor);
 		return new RedirectView("livro");
 	}

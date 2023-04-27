@@ -24,6 +24,8 @@ import lombok.Setter;
 public class LivroBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	private static final String LIVRO_VIEW = "livro";
 
 	@Getter	@Setter
 	private Integer autorId;
@@ -39,17 +41,27 @@ public class LivroBean implements Serializable {
 
 	public ForwardView gravar() {
 
-
 		if (livro.getAutores().isEmpty()) {
-//			throw new RuntimeException("Livro deve ter pelo menos um Autor.");
 			FacesContext.getCurrentInstance().addMessage("autor", new FacesMessage("Livro deve ter pelo menos um Autor."));
-			return new ForwardView("livro");
+			return null;
 		}
 
-		livroDao.adiciona(this.livro);
-		System.out.println("Gravando livro " + this.livro.getTitulo());
+		if (livro.getId() == null)
+			livroDao.adiciona(this.livro);
+
+		else
+			livroDao.atualiza(livro);
+
 		this.livro = new Livro();
-		return new ForwardView("livro");
+		return new ForwardView(LIVRO_VIEW);
+	}
+	
+	public void remover(Livro livro) {
+		livroDao.remove(livro);
+	}
+	
+	public void exibir(Livro livro) {
+		this.livro = livroDao.buscaPorId(livro.getId());
 	}
 
 	public void gravarAutor() {

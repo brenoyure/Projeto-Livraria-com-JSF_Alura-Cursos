@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 
 import br.com.caelum.livraria.modelo.Livro;
 
@@ -38,7 +39,15 @@ public class LivroDAO {
 	}
 
 	public Livro buscaPorId(Integer id) {
-		return em.find(Livro.class, id);
+		var	cb 		=	em.getCriteriaBuilder();
+		var query	=	cb.createQuery(Livro.class);
+		var livro	=	query.from(Livro.class);
+		
+		livro.fetch("autores", JoinType.LEFT);
+
+		query.where(cb.equal(livro.get("id"), id));
+		return em.createQuery(query).getSingleResult();
+		
 	}
 
 	public long contaTodos() {
