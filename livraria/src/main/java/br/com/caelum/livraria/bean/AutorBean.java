@@ -3,22 +3,27 @@ package br.com.caelum.livraria.bean;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.caelum.livraria.dao.AutorDAO;
 import br.com.caelum.livraria.modelo.Autor;
 import br.com.caelum.livraria.util.RedirectView;
+import lombok.Getter;
+import lombok.Setter;
 
 @Named
-@RequestScoped
+@ViewScoped
 public class AutorBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Autor autor = new Autor();
 
+	@Getter @Setter
+	private Integer autorId;
+	
 	@Inject
 	private AutorDAO autorDao;
 
@@ -39,6 +44,10 @@ public class AutorBean implements Serializable {
 
 	public void exibir(Autor autor) {
 		this.autor = autor;
+	}
+	
+	public void carregarAutorPeloId() {
+		this.autor = autorDao.buscaPorId(autorId);
 	}
 
 	public void remover(Autor autor) {

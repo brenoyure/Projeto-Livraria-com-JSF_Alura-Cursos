@@ -30,8 +30,9 @@ public class AutorDAO {
 	}
 
 	public List<Autor> listaTodos() {
-		CriteriaQuery<Autor> query = em.getCriteriaBuilder().createQuery(Autor.class);
-		query.select(query.from(Autor.class));
+		var query = em.getCriteriaBuilder()
+						.createQuery(Autor.class);
+		query.from(Autor.class);
 
 		return em
 				.createQuery(query)

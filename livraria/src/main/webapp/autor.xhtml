@@ -7,6 +7,11 @@
 
 <ui:composition template="/_template.xhtml">
 
+	<f:metadata>
+		<f:viewParam name="autorId" value="#{autorBean.autorId}" />
+		<f:viewAction action="#{autorBean.carregarAutorPeloId}" if="#{param.autorId != null}"  />
+	</f:metadata>
+
 	<ui:define name="titulo">
 		Autores
 	</ui:define>
@@ -18,10 +23,16 @@
 				<legend>Dados do Autor</legend>
 				<h:panelGrid columns="2">
 					<h:outputLabel value="Nome:" for="nome" />
-					<h:inputText required="true" id="nome" value="#{autorBean.autor.nome}" requiredMessage="Nome do Autor é obrigatório." />
-					<h:commandButton value="Gravar" action="#{autorBean.gravar}" >
-						<f:ajax execute="@form" render="mensagens" />
-					</h:commandButton>
+						<h:inputText required="true" id="nome" value="#{autorBean.autor.nome}" requiredMessage="Nome do Autor é obrigatório." />
+					
+					<h:outputLabel value="E-Mail:" for="email" />
+						<h:inputText required="true" id="email" value="#{autorBean.autor.email}" requiredMessage="E-mail do Autor é obrigatório." >
+							<f:passThroughAttribute name="type" value="email" />
+							<f:passThroughAttribute name="required" value="true" />
+						</h:inputText>
+						
+					<h:commandButton value="Gravar" action="#{autorBean.gravar}" />
+					
 				</h:panelGrid>
 			</fieldset>
 		</h:form>

@@ -30,8 +30,9 @@ public class LivroDAO {
 	}
 
 	public List<Livro> listaTodos() {
-		CriteriaQuery<Livro> query = em.getCriteriaBuilder().createQuery(Livro.class);
-		query.select(query.from(Livro.class));
+		var	cb 		=	em.getCriteriaBuilder();
+		var query	=	cb.createQuery(Livro.class);
+		query.from(Livro.class);
 
 		return em
 				.createQuery(query)

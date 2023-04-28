@@ -20,5 +20,6 @@ public class Autor {
 	@GeneratedValue(strategy = IDENTITY)
 	private Integer id;
 	private String nome;
+	private String email;
 
 }
