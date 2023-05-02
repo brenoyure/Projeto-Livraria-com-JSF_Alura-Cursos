@@ -33,11 +33,25 @@ public class LoginBean implements Serializable {
 	@Getter
 	private Usuario usuario = new Usuario();
 
+	/**
+	 * Efetua o Login do usuário, verificando antes se este existe ou não no banco de dados.
+	 * Caso o usuário exista, este é adicionado na Session, 
+	 * através do getSessionMap() do External Context do FacesContext.
+	 * 
+	 * @return redirect to livro.xhtml
+	 */
 	public String efetuarLogin() {
 
 		if (usuarioExiste(usuario)) {
 			System.out.println("Efetuando Login do Usuário " + usuario.getEmail());
+
+			FacesContext.getCurrentInstance()
+							.getExternalContext()
+							.getSessionMap()
+							.put("usuarioLogado", this.usuario);
+
 			return "livro?faces-redirect=true";
+
 		}
 
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Erro ao efetuar login, usuário ou senha incorretos."));
