@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -38,25 +39,33 @@ public class LoginBean implements Serializable {
 	 * Caso o usuário exista, este é adicionado na Session, 
 	 * através do getSessionMap() do External Context do FacesContext.
 	 * 
+	 * Foi utilizado o Flash através do ExternalContext, para manter as mensagens, durante o redirect, 
+	 * caso no momento do login, o usuário erre o e-mail ou senha.
+	 * 
 	 * @return redirect to livro.xhtml
 	 */
 	public String efetuarLogin() {
 
+		FacesContext context = FacesContext.getCurrentInstance();
+
 		if (usuarioExiste(usuario)) {
 			System.out.println("Efetuando Login do Usuário " + usuario.getEmail());
 
-			FacesContext.getCurrentInstance()
-							.getExternalContext()
-							.getSessionMap()
-							.put("usuarioLogado", this.usuario);
+			context	
+					.getExternalContext()
+				   	.getSessionMap()
+					.put("usuarioLogado", this.usuario);
 
 			return "livro?faces-redirect=true";
 
 		}
 
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Erro ao efetuar login, usuário ou senha incorretos."));
+		Flash flash = context.getExternalContext().getFlash();
+		flash.setKeepMessages(true);
+
+		context.addMessage(null, new FacesMessage("Erro ao efetuar login, usuário ou senha incorretos."));
 		System.err.println("Erro ao efetuar login, usuário ou senha incorretos.");
-		return null;
+		return "login?faces-redirect=true";
 
 	}
 	
