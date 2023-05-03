@@ -59,6 +59,12 @@ public class LoginBean implements Serializable {
 		return null;
 
 	}
+	
+	public String deslogar() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.getExternalContext().getSessionMap().remove("usuarioLogado");
+		return "login?faces-redirect=true";
+	}
 
 	private boolean usuarioExiste(Usuario usuario) {
 		return usuarioDAO.usuarioExiste(usuario);
