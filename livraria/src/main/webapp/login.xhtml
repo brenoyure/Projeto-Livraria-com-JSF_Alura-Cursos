@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <ui:composition template="/_template.xhtml">
@@ -14,31 +15,27 @@
 	<ui:define name="conteudo">
 
 		<h:form id="login">
-			<fieldset>
-				<legend>Login</legend>
+			<p:fieldset legend="Login">
 				<h:panelGrid columns="3">
 
 					<!-- Output label para o email -->
-					<h:outputLabel value="E-mail:" for="email" />
-						<h:inputText id="email" value="#{loginBean.usuario.email}" required="true" >
+					<p:outputLabel value="E-mail:" for="email" />
+						<p:inputText id="email" value="#{loginBean.usuario.email}" required="true" >
 							<f:passThroughAttribute name="required" value="true" />
 							<f:passThroughAttribute name="type" value="email" />
-						</h:inputText>
+						</p:inputText>
 
 
 					<!-- Output label para o password -->
-					<h:outputLabel value="Senha:" for="senha" />
-						<h:inputSecret id="senha" value="#{loginBean.usuario.senha}" required="true"  >
-							<f:passThroughAttribute name="required" value="true" />
-						</h:inputSecret>
-
+					<p:outputLabel value="Senha:" for="senha" />
+						<p:password id="senha" value="#{loginBean.usuario.senha}" required="true" />
 
 					<!-- CommandButton para efetuar login -->
-					<h:commandButton value="Efetue Login" action="#{loginBean.efetuarLogin}" />
-					
+					<p:commandButton value="Efetue Login" action="#{loginBean.efetuarLogin}" ajax="false" />
+
 
 				</h:panelGrid>
-			</fieldset>
+			</p:fieldset>
 		</h:form>
 
 	</ui:define>

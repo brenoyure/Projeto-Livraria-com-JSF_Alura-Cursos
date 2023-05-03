@@ -49,7 +49,7 @@ public class LoginBean implements Serializable {
 		FacesContext context = FacesContext.getCurrentInstance();
 
 		if (usuarioExiste(usuario)) {
-			System.out.println("Efetuando Login do Usuário " + usuario.getEmail());
+//			System.out.println("Efetuando Login do Usuário " + usuario.getEmail());
 
 			context	
 					.getExternalContext()
@@ -64,11 +64,11 @@ public class LoginBean implements Serializable {
 		flash.setKeepMessages(true);
 
 		context.addMessage(null, new FacesMessage("Erro ao efetuar login, usuário ou senha incorretos."));
-		System.err.println("Erro ao efetuar login, usuário ou senha incorretos.");
+//		System.err.println("Erro ao efetuar login, usuário ou senha incorretos.");
 		return "login?faces-redirect=true";
 
 	}
-	
+
 	public String deslogar() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.getExternalContext().getSessionMap().remove("usuarioLogado");

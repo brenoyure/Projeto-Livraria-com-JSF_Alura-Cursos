@@ -19,7 +19,10 @@ public class LoginPhaseListener implements PhaseListener {
 		FacesContext context = event.getFacesContext();
 		String nomePagina = context.getViewRoot().getViewId();
 
-		System.out.println(nomePagina);
+		/*
+		 * Imprime o Nome da página atual no console.
+		 */
+//		System.out.println(nomePagina);
 
 		if (nomePagina.equals("/login.xhtml")) {
 			return;
