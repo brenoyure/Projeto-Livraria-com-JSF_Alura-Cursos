@@ -81,7 +81,7 @@
 	
 		<fieldset>
 			<legend>Livros Cadastrados</legend>
-			
+
 			<h:form id="formTabelaLivros">
 			
 				<h:dataTable id="tabelaLivros" value="#{livroBean.livrosCadastrados}" var="livro" >
@@ -106,7 +106,8 @@
 					
 					<h:column>
 						<f:facet name="header">Editar</f:facet>
-						<h:commandLink value="Exibir" action="#{livroBean.exibir(livro)}" >
+						<h:commandLink value="Exibir" >
+							<f:setPropertyActionListener value="#{livro}" target="#{livroBean.livro}" />
 							<f:ajax execute="livro" render=":formCadastroLivro" />
 						</h:commandLink>
 					</h:column>

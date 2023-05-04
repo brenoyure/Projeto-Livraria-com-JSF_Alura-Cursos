@@ -31,7 +31,7 @@ public class LivroBean implements Serializable {
 	@Getter	@Setter
 	private Integer autorId;
 
-	@Getter
+	@Getter @Setter
 	private Livro livro = new Livro();
 
 	@Inject
@@ -65,10 +65,6 @@ public class LivroBean implements Serializable {
 		this.livro.removerAutor(autor);
 	}
 	
-	public void exibir(Livro livro) {
-		this.livro = livroDao.buscaPorId(livro.getId());
-	}
-
 	public void gravarAutor() {
 		Autor autor = autorDao.buscaPorId(autorId);
 		livro.adicionaAutor(autor);

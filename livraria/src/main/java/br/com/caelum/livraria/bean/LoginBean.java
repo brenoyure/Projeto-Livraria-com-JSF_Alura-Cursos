@@ -1,5 +1,7 @@
 package br.com.caelum.livraria.bean;
 
+import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
+
 import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
@@ -35,12 +37,19 @@ public class LoginBean implements Serializable {
 	private Usuario usuario = new Usuario();
 
 	/**
-	 * Efetua o Login do usuário, verificando antes se este existe ou não no banco de dados.
-	 * Caso o usuário exista, este é adicionado na Session, 
-	 * através do getSessionMap() do External Context do FacesContext.
+	 * <p>
+	 *	Efetua o Login do usuário, verificando antes se este existe ou não no banco de dados.
+	 * </p>
 	 * 
-	 * Foi utilizado o Flash através do ExternalContext, para manter as mensagens, durante o redirect, 
-	 * caso no momento do login, o usuário erre o e-mail ou senha.
+	 * <p>
+	 * 	Caso o usuário exista, este é adicionado na Session, 
+	 * 	através do getSessionMap() do External Context do FacesContext.
+	 * </p>
+	 * 
+	 * <p>
+	 * 	Foi utilizado o Flash através do ExternalContext, para manter as mensagens, durante o redirect, 
+	 * 	caso no momento do login, o usuário erre o e-mail ou senha.
+	 * </p>
 	 * 
 	 * @return redirect to livro.xhtml
 	 */
@@ -63,12 +72,17 @@ public class LoginBean implements Serializable {
 		Flash flash = context.getExternalContext().getFlash();
 		flash.setKeepMessages(true);
 
-		context.addMessage(null, new FacesMessage("Erro ao efetuar login, usuário ou senha incorretos."));
+		context.addMessage(null, new FacesMessage(SEVERITY_ERROR, "Erro ao efetuar login, usuário ou senha incorretos.", null));
 //		System.err.println("Erro ao efetuar login, usuário ou senha incorretos.");
 		return "login?faces-redirect=true";
 
 	}
 
+	/**
+	 * Desloga o usuário e o redireciona para a página de login.
+	 * 
+	 * @return Página de Login
+	 */
 	public String deslogar() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.getExternalContext().getSessionMap().remove("usuarioLogado");

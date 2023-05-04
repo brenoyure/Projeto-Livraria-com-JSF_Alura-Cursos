@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <ui:composition template="/_template.xhtml">
@@ -19,45 +20,63 @@
 	<ui:define name="conteudo">
 
 		<h:form id="formAutor">
-			<fieldset>
-				<legend>Dados do Autor</legend>
+			<p:fieldset legend="Dados do Autor">
 				<h:panelGrid columns="2">
-					<h:outputLabel value="Nome:" for="nome" />
-						<h:inputText required="true" id="nome" value="#{autorBean.autor.nome}" requiredMessage="Nome do Autor é obrigatório." />
-					
-					<h:outputLabel value="E-Mail:" for="email" />
-						<h:inputText required="true" id="email" value="#{autorBean.autor.email}" requiredMessage="E-mail do Autor é obrigatório." >
-							<f:passThroughAttribute name="type" value="email" />
+					<p:outputLabel value="Nome:" for="nome" />
+						<p:inputText required="true" id="nome" value="#{autorBean.autor.nome}" requiredMessage="Nome do Autor é obrigatório." />
+
+					<p:outputLabel value="E-Mail:" for="email" />
+						<p:inputText required="true" id="email" value="#{autorBean.autor.email}" requiredMessage="E-mail do Autor é obrigatório." >
+							<f:attribute name="type" value="email" />
 							<f:passThroughAttribute name="required" value="true" />
-						</h:inputText>
-						
-					<h:commandButton value="Gravar" action="#{autorBean.gravar}" />
-					
+						</p:inputText>
+
+					<p:commandButton value="Gravar" action="#{autorBean.gravar}" process="@form" update="@form :formTabelaAutores" />
+
 				</h:panelGrid>
-			</fieldset>
+			</p:fieldset>
 		</h:form>
-		
-		<fieldset>
-			<legend>Autores Cadastrados</legend>
-			<h:dataTable id="tabelaAutores" value="#{autorBean.autores}" var="autor">
-				<h:column>
-					<f:facet name="header">Nome</f:facet>
-					<h:outputText value="#{autor.nome}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">Exibir</f:facet>
-					<h:commandLink action="#{autorBean.exibir(autor)}" value="Exibir">
-						<f:ajax render=":formAutor" />
-					</h:commandLink>
-				</h:column>
-				<h:column>
-					<f:facet name="header">Remover</f:facet>
-					<h:commandLink value="X" action="#{autorBean.remover(autor)}">
-						<f:ajax render="@all" />
-					</h:commandLink>
-				</h:column>
-			</h:dataTable>
-		</fieldset>
+
+		<h:form id="formTabelaAutores">
+
+			<p:dataList value="#{autorBean.autores}" var="autor" type="definition">
+				<f:facet name="header">Autores</f:facet>
+
+				<p:commandLink update=":formAutor">
+					<h:outputText title="Editar" styleClass="ui-icon pi pi-pencil" style="margin:0 auto;margin-right:10px" />
+					<f:setPropertyActionListener value="#{autor}" target="#{autorBean.autor}" />
+				</p:commandLink>
+
+				<h:commandLink action="#{autorBean.remover(autor)}" styleClass="ui-icon pi pi-trash" style="margin:0 auto;margin-right:10px" >
+					<f:ajax render="@form :formAutor" />
+				</h:commandLink>
+
+				#{autor.nome} - #{autor.email}
+
+			</p:dataList>
+
+			<p:fieldset legend="Autores Cadastrados">
+				<h:dataTable id="tabelaAutores" value="#{autorBean.autores}" var="autor" >
+					<h:column>
+						<f:facet name="header">Nome</f:facet>
+						<h:outputText value="#{autor.nome}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Exibir</f:facet>
+						<p:commandLink update=":formAutor">
+							 <h:outputText styleClass="ui-icon pi pi-search" style="margin:0 auto;" />
+							<f:setPropertyActionListener value="#{autor}" target="#{autorBean.autor}" />
+						</p:commandLink>
+					</h:column>
+					<h:column>
+						<f:facet name="header">Remover</f:facet>
+						<h:commandLink value="X" action="#{autorBean.remover(autor)}">
+							<f:ajax render="@all" />
+						</h:commandLink>
+					</h:column>
+				</h:dataTable>
+			</p:fieldset>
+		</h:form>
 
 	</ui:define>
 

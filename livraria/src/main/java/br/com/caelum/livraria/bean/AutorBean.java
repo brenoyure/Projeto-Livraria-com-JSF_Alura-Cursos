@@ -19,23 +19,27 @@ public class AutorBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Getter @Setter
 	private Autor autor = new Autor();
 
 	@Getter @Setter
 	private Integer autorId;
-	
+
 	@Inject
 	private AutorDAO autorDao;
 
 	public RedirectView gravar() {
 
-		if (autor.getId() == null)
+		if (autor.getId() == null) {
 			autorDao.adiciona(this.autor);
+			return new RedirectView("livro");
+		}
 
-		else
+		else {
 			autorDao.atualiza(autor);
+			return new RedirectView("autor");
+		}
 
-		return new RedirectView("livro");
 	}
 
 	public List<Autor> getAutores() {
@@ -45,17 +49,13 @@ public class AutorBean implements Serializable {
 	public void exibir(Autor autor) {
 		this.autor = autor;
 	}
-	
+
 	public void carregarAutorPeloId() {
 		this.autor = autorDao.buscaPorId(autorId);
 	}
 
 	public void remover(Autor autor) {
 		autorDao.remove(autor);
-	}
-
-	public Autor getAutor() {
-		return autor;
 	}
 
 }

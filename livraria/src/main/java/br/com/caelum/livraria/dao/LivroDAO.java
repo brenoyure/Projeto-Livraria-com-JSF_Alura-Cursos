@@ -32,7 +32,10 @@ public class LivroDAO {
 	public List<Livro> listaTodos() {
 		var	cb 		=	em.getCriteriaBuilder();
 		var query	=	cb.createQuery(Livro.class);
-		query.from(Livro.class);
+
+		query
+			.from(Livro.class)
+			.fetch("autores", JoinType.LEFT);
 
 		return em
 				.createQuery(query)
@@ -43,7 +46,7 @@ public class LivroDAO {
 		var	cb 		=	em.getCriteriaBuilder();
 		var query	=	cb.createQuery(Livro.class);
 		var livro	=	query.from(Livro.class);
-		
+
 		livro.fetch("autores", JoinType.LEFT);
 
 		query.where(cb.equal(livro.get("id"), id));
