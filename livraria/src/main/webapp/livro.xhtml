@@ -50,39 +50,38 @@
 						<f:selectItems value="#{autorBean.autores}" var="autor" itemLabel="#{autor.nome}" itemValue="#{autor.id}" />
 					</p:selectOneMenu>
 
-					<p:commandButton value="Gravar Autor" actionListener="#{livroBean.gravarAutor}" update="tabelaAutores" process="autor" />
+					<!-- Botão para adicionra um Autor na lista de autores do Livro -->
+					<p:commandButton value="Adicionar Autor" actionListener="#{livroBean.gravarAutor}" process="autor" update="tabelaAutores"/>
 
 					<br />
 
+					<!-- Link para Cadastrar um Novo Autor no Sistema -->
 					<p:commandLink value="Cadastrar novo autor" action="autor?faces-redirect=true" immediate="true" />
-	
-					<h:dataTable value="#{livroBean.autoresDoLivro}" var="autor" id="tabelaAutores" >
+
+					<p:dataTable value="#{livroBean.autoresDoLivro}" var="autor" id="tabelaAutores" >
 						<h:column>
 							<h:outputText value="#{autor.nome}" />
 						</h:column>
-						
+
 						<h:column>
-							<h:commandLink value="X" action="#{livroBean.removerAutorDoLivro(autor)}" >
+							<h:commandLink value="X" actionListener="#{livroBean.removerAutorDoLivro(autor)}" >
 								<f:ajax render="formCadastroLivro" />
 							</h:commandLink>
 						</h:column>
-						
-					</h:dataTable>
+
+					</p:dataTable>
 					
 			</p:fieldset>
-	
-			<h:commandButton value="Gravar" action="#{livroBean.gravar}" >
-				<f:ajax execute="@form" render="@form :formTabelaLivros:tabelaLivros :mensagens" />
-			</h:commandButton>
-			
+
+			<p:commandButton value="Gravar Novo Livro" actionListener="#{livroBean.gravar}" process="@form" update="@form :formTabelaLivros:tabelaLivros :mensagens" />
+
 		</h:form>
 	
-		<fieldset>
-			<legend>Livros Cadastrados</legend>
+		<p:fieldset legend="Livros Cadastrados">
 
 			<h:form id="formTabelaLivros">
 			
-				<h:dataTable id="tabelaLivros" value="#{livroBean.livrosCadastrados}" var="livro" >
+				<p:dataTable id="tabelaLivros" value="#{livroBean.livrosCadastrados}" var="livro" >
 					<h:column>
 						<f:facet name="header">Título</f:facet>
 						<h:outputText value="#{livro.titulo}"/>
@@ -112,16 +111,16 @@
 					
 					<h:column>
 						<f:facet name="header">Remover</f:facet>
-							<h:commandLink value="remover" action="#{livroBean.remover(livro)}">
+							<h:commandLink value="remover" actionListener="#{livroBean.remover(livro)}">
 								<f:ajax render="formTabelaLivros" />
 						</h:commandLink>
 					</h:column>
 					
 	
-				</h:dataTable>
+				</p:dataTable>
 			</h:form>
 			
-		</fieldset>
+		</p:fieldset>
 
 	
 	</ui:define>
