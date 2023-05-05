@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <ui:composition template="/_template.xhtml">
@@ -14,49 +15,46 @@
 	<ui:define name="conteudo">
 	
 		<h:form id="formCadastroLivro">
-			<fieldset class="fset">
-				<legend>Dados do Livro</legend>
-				<h:panelGrid columns="2">
+			<p:fieldset legend="Dados do Livro">
+				<p:panelGrid columns="2">
 	
-					<h:outputLabel value="Titulo:" for="titulo" />
-					<h:inputText id="titulo" required="true" value="#{livroBean.livro.titulo}" 
+					<p:outputLabel value="Titulo:" for="titulo" />
+					<p:inputText id="titulo" required="true" value="#{livroBean.livro.titulo}" 
 									requiredMessage="O Título é obrigatório." 
 									validatorMessage="Cumprimento máximo para o Título é de 40 caracteres.">
 						<f:validateLength maximum="40" />
 						<f:ajax execute="titulo" event="blur" render="mensagens" />
-					</h:inputText>
+					</p:inputText>
 	
-					<h:outputLabel value="ISBN:" for="isbn" />
-					<h:inputText id="isbn" required="true" value="#{livroBean.livro.isbn}" requiredMessage="O ISBN é obrigatório." validator="#{livroBean.comecaComDigitoUm}" >
+					<p:outputLabel value="ISBN:" for="isbn" />
+					<p:inputText id="isbn" required="true" value="#{livroBean.livro.isbn}" requiredMessage="O ISBN é obrigatório." validator="#{livroBean.comecaComDigitoUm}" >
 						<f:ajax execute="isbn" event="blur"	 render="mensagens" />
 						<f:ajax execute="isbn" event="keyup" render="mensagens" />
-					</h:inputText>
+					</p:inputText>
 	
-					<h:outputLabel value="Preço:" for="preco" />
-					<h:inputText required="true" id="preco" value="#{livroBean.livro.preco}" validatorMessage="Preço Mínimo de R$1,00 e máximo de R$1000,00" >
+					<p:outputLabel value="Preço:" for="preco" />
+					<p:inputText required="true" id="preco" value="#{livroBean.livro.preco}" validatorMessage="Preço Mínimo de R$1,00 e máximo de R$1000,00" >
 						<f:validateDoubleRange minimum="1.00" maximum="1000.00" />
-					</h:inputText>
+					</p:inputText>
 	
-					<h:outputLabel value="Data de Lançamento:" for="dataLancamento" />
-					<h:inputText id="dataLancamento" value="#{livroBean.livro.dataLancamento.time}">
+					<p:outputLabel value="Data de Lançamento:" for="dataLancamento" />
+					<p:inputText id="dataLancamento" value="#{livroBean.livro.dataLancamento.time}">
 						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Fortaleza" />
-					</h:inputText>
-				</h:panelGrid>
-			</fieldset>
+					</p:inputText>
+				</p:panelGrid>
+			</p:fieldset>
 	
-			<fieldset>
-				<legend>Dados do Autor</legend>
-					<h:outputLabel value="Selecione Autor: " for="autor"/>
-					<h:selectOneMenu value="#{livroBean.autorId}" id="autor" >
+			<p:fieldset legend="Dados do Autor">
+					<p:outputLabel value="Selecione Autor: " for="autor"/>
+					<p:selectOneMenu value="#{livroBean.autorId}" id="autor" style="margin-left:10px" >
 						<f:selectItems value="#{autorBean.autores}" var="autor" itemLabel="#{autor.nome}" itemValue="#{autor.id}" />
-					</h:selectOneMenu>
-					<h:commandButton value="Gravar Autor" action="#{livroBean.gravarAutor}">
-						<f:ajax execute="autor" render="tabelaAutores" />
-					</h:commandButton>
-	
+					</p:selectOneMenu>
+
+					<p:commandButton value="Gravar Autor" actionListener="#{livroBean.gravarAutor}" update="tabelaAutores" process="autor" />
+
 					<br />
-	
-					<h:commandLink value="Cadastrar novo autor" action="autor?faces-redirect=true" immediate="true" />
+
+					<p:commandLink value="Cadastrar novo autor" action="autor?faces-redirect=true" immediate="true" />
 	
 					<h:dataTable value="#{livroBean.autoresDoLivro}" var="autor" id="tabelaAutores" >
 						<h:column>
@@ -71,7 +69,7 @@
 						
 					</h:dataTable>
 					
-			</fieldset>
+			</p:fieldset>
 	
 			<h:commandButton value="Gravar" action="#{livroBean.gravar}" >
 				<f:ajax execute="@form" render="@form :formTabelaLivros:tabelaLivros :mensagens" />
