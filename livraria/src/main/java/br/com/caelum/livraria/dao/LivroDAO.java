@@ -35,7 +35,7 @@ public class LivroDAO {
 
 		query
 			.from(Livro.class)
-			.fetch("autores", JoinType.LEFT);
+			.fetch("autores");
 
 		return em
 				.createQuery(query)

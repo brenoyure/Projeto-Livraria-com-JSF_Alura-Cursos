@@ -30,19 +30,22 @@ public class AutorDAO {
 	}
 
 	public List<Autor> listaTodos() {
-		var query = em.getCriteriaBuilder()
-						.createQuery(Autor.class);
-		query.from(Autor.class);
+		var cb    =  em.getCriteriaBuilder();
+		var cq    =  cb.createQuery(Autor.class);
+		var autor =  cq.from(Autor.class);
+
+		cq.orderBy(
+			cb.asc(autor.get("nome")));
 
 		return em
-				.createQuery(query)
+				.createQuery(cq)
 				.getResultList();
 	}
 
 	public Autor buscaPorId(Integer id) {
 		return em.find(Autor.class, id);
 	}
-	
+
 	public Autor buscaRefPorId(Integer id) {
 		return em.merge(em.getReference(Autor.class, id));
 	}

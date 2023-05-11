@@ -27,6 +27,8 @@ public class AutorBean implements Serializable {
 
 	@Inject
 	private AutorDAO autorDao;
+	
+	private List<Autor> autores;
 
 	public RedirectView gravar() {
 
@@ -43,7 +45,9 @@ public class AutorBean implements Serializable {
 	}
 
 	public List<Autor> getAutores() {
-		return autorDao.listaTodos();
+		if (autores == null)
+			return autores = autorDao.listaTodos();
+		return autores;
 	}
 
 	public void exibir(Autor autor) {

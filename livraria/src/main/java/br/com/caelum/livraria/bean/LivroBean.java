@@ -2,6 +2,7 @@ package br.com.caelum.livraria.bean;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.faces.application.FacesMessage;
@@ -37,6 +38,8 @@ public class LivroBean implements Serializable {
 	@Inject
 	private LivroDAO livroDao;
 
+	private List<Livro> livros;
+	
 	@Inject
 	private AutorDAO autorDao;
 
@@ -52,6 +55,8 @@ public class LivroBean implements Serializable {
 
 		else
 			livroDao.atualiza(livro);
+
+		livros = livroDao.listaTodos();
 
 		this.livro = new Livro();
 		return new ForwardView(LIVRO_VIEW);
@@ -75,7 +80,10 @@ public class LivroBean implements Serializable {
 	}
 
 	public List<Livro> getLivrosCadastrados() {
-		return livroDao.listaTodos();
+		if (livros == null)
+			return livros = livroDao.listaTodos();
+
+		return livros;
 	}
 
 	public void comecaComDigitoUm(FacesContext fc, UIComponent component, Object value) throws ValidatorException {
