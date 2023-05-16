@@ -50,13 +50,15 @@ public class LivroBean implements Serializable {
 			return null;
 		}
 
-		if (livro.getId() == null)
+		if (livro.getId() == null) {
 			livroDao.adiciona(this.livro);
+			livros.add(livro);
+		}
 
-		else
+		else {
 			livroDao.atualiza(livro);
-
-		livros = livroDao.listaTodos();
+			livros = livroDao.listaTodos();
+		}
 
 		this.livro = new Livro();
 		return new ForwardView(LIVRO_VIEW);
@@ -64,6 +66,7 @@ public class LivroBean implements Serializable {
 	
 	public void remover(Livro livro) {
 		livroDao.remove(livro);
+		livros.remove(livro);
 	}
 	
 	public void removerAutorDoLivro(Autor autor) {
@@ -91,6 +94,30 @@ public class LivroBean implements Serializable {
 
 		if (!valor.startsWith("1"))
 			throw new ValidatorException(new FacesMessage("ISBN deve começar com número 1."));
+
+	}
+
+	public boolean precoEhMenor(Object valorColuna, Object filtroDigitado, Locale locale) {
+		String textoDigitado = (filtroDigitado == null) ? null : filtroDigitado.toString().trim();
+
+//		System.out.println("Filtrando pelo " + textoDigitado + ", Valor do elemento: " + valorColuna);
+
+		if (textoDigitado == null || textoDigitado.isBlank()) {
+			return true;
+		}
+
+		if (valorColuna == null) {
+			return false;
+		}
+		
+		try {
+			Double precoDigitado = Double.valueOf(textoDigitado);
+			Double precoColuna   = (Double) valorColuna;
+			return precoColuna.compareTo(precoDigitado) < 0;
+
+		} catch (NumberFormatException e) {
+			return false;
+		}
 
 	}
 

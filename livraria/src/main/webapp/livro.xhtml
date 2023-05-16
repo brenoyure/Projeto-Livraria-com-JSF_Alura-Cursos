@@ -104,7 +104,7 @@
 						<p:outputLabel value="#{livro.isbn}" />
 					</p:column>
 
-					<p:column headerText="Preço" sortBy="#{livro.preco}" >
+					<p:column headerText="Preço" sortBy="#{livro.preco}" filterBy="#{livro.preco}" filterFunction="#{livroBean.precoEhMenor}" >
 						<p:outputLabel value="#{livro.preco}" >
 							<f:convertNumber locale="pt_BR" type="currency" currencySymbol="R$" pattern="R$ #0.00" currencyCode="BRL" />
 						</p:outputLabel>
@@ -124,9 +124,7 @@
 					</p:column>
 
 					<p:column headerText="Remover">
-						<p:commandLink value="Remover" actionListener="#{livroBean.remover(livro)}">
-							<f:ajax render="formTabelaLivros" />
-						</p:commandLink>
+						<p:commandLink value="Remover" actionListener="#{livroBean.remover(livro)}" update="@form" />
 					</p:column>
 				</p:dataTable>
 
