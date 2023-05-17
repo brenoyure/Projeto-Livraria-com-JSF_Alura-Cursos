@@ -92,30 +92,30 @@
 
 			<h:form id="formTabelaLivros">
 
-				<p:dataTable id="tabelaLivros" value="#{livroBean.livrosCadastrados}" var="livro" paginator="true" rows="5" >
+				<p:dataTable id="tabelaLivros" value="#{livroBean.livroDataModel}" var="livro" paginator="true" rows="5" lazy="true" >
 
 				    <f:facet name="header">	Livros</f:facet>
 
 					<p:column headerText="Título" sortBy="#{livro.titulo}" filterBy="#{livro.titulo}" filterMatchMode="contains" sortOrder="asc" >
 						<p:outputLabel value="#{livro.titulo}"/>
 					</p:column>
-					
+
 					<p:column headerText="ISBN" sortBy="#{livro.isbn}" filterBy="#{livro.isbn}" filterMatchMode="contains">
 						<p:outputLabel value="#{livro.isbn}" />
 					</p:column>
 
-					<p:column headerText="Preço" sortBy="#{livro.preco}" filterBy="#{livro.preco}" filterFunction="#{livroBean.precoEhMenor}" >
+					<p:column headerText="Preço" sortBy="#{livro.preco}" filterBy="#{livro.preco}" filterFunction="#{livroBean.filtraPorPrecoMenorQue}" >
 						<p:outputLabel value="#{livro.preco}" >
 							<f:convertNumber locale="pt_BR" type="currency" currencySymbol="R$" pattern="R$ #0.00" currencyCode="BRL" />
 						</p:outputLabel>
 					</p:column>
-					
+
 					<p:column headerText="Data de Lançamento" sortBy="#{livro.dataLancamento.time}" >
 						<p:outputLabel value="#{livro.dataLancamento.time}">
 							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Fortaleza" />
 						</p:outputLabel>
 					</p:column>
-					
+
 					<p:column headerText="Editar">
 						<p:commandLink value="Exibir" >
 							<f:setPropertyActionListener value="#{livro}" target="#{livroBean.livro}" />

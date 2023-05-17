@@ -54,6 +54,10 @@ public class LivroDAO {
 		
 	}
 
+	public int quantidadeDeElementos() {
+		return (int) contaTodos();
+	}
+
 	public long contaTodos() {
 		CriteriaBuilder		cb	= em.getCriteriaBuilder();
 		CriteriaQuery<Long> cq	= cb.createQuery(Long.class);
@@ -66,6 +70,23 @@ public class LivroDAO {
 	public List<Livro> listaTodosPaginada(int firstResult, int maxResults) {
 		CriteriaQuery<Livro> query = em.getCriteriaBuilder().createQuery(Livro.class);
 		query.select(query.from(Livro.class));
+
+		return em.createQuery(query)
+				.setFirstResult(firstResult)
+				.setMaxResults(maxResults)
+				.getResultList();
+	}
+
+	public List<Livro> listaTodosPaginada(int firstResult, int maxResults, String coluna, String valorDigitado) {
+		var cb      = em.getCriteriaBuilder();
+		var query   = cb.createQuery(Livro.class);
+		var root    = query.from(Livro.class);
+		query.select(root);
+
+		if (valorDigitado != null)
+			query.where(
+					cb.like(
+							root.get(coluna), "%"+valorDigitado+"%"));
 
 		return em.createQuery(query)
 				.setFirstResult(firstResult)

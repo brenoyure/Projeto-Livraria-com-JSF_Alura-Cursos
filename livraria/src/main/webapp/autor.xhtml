@@ -70,7 +70,7 @@
 					</h:column>
 					<h:column>
 						<f:facet name="header">Remover</f:facet>
-						<h:commandLink value="X" action="#{autorBean.remover(autor)}">
+						<h:commandLink value="X" actionListener="#{autorBean.remover(autor)}">
 							<f:ajax render="@all" />
 						</h:commandLink>
 					</h:column>

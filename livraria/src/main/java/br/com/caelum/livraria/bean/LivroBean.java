@@ -17,6 +17,7 @@ import br.com.caelum.livraria.dao.AutorDAO;
 import br.com.caelum.livraria.dao.LivroDAO;
 import br.com.caelum.livraria.modelo.Autor;
 import br.com.caelum.livraria.modelo.Livro;
+import br.com.caelum.livraria.modelo.LivroDataModel;
 import br.com.caelum.livraria.util.ForwardView;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +27,7 @@ import lombok.Setter;
 public class LivroBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final String LIVRO_VIEW = "livro";
 
 	@Getter	@Setter
@@ -39,7 +40,10 @@ public class LivroBean implements Serializable {
 	private LivroDAO livroDao;
 
 	private List<Livro> livros;
-	
+
+	@Inject @Getter
+	private LivroDataModel livroDataModel;
+
 	@Inject
 	private AutorDAO autorDao;
 
@@ -97,22 +101,18 @@ public class LivroBean implements Serializable {
 
 	}
 
-	public boolean precoEhMenor(Object valorColuna, Object filtroDigitado, Locale locale) {
-		String textoDigitado = (filtroDigitado == null) ? null : filtroDigitado.toString().trim();
+	public boolean filtraPorPrecoMenorQue(Object valorColuna, Object valorDigitado, Locale locale) {
+		String textoDigitado = (valorDigitado == null) ? null : valorDigitado.toString().trim();
 
-//		System.out.println("Filtrando pelo " + textoDigitado + ", Valor do elemento: " + valorColuna);
-
-		if (textoDigitado == null || textoDigitado.isBlank()) {
+		if (textoDigitado == null || textoDigitado.isBlank())
 			return true;
-		}
 
-		if (valorColuna == null) {
+		if (valorColuna == null)
 			return false;
-		}
-		
+
 		try {
-			Double precoDigitado = Double.valueOf(textoDigitado);
-			Double precoColuna   = (Double) valorColuna;
+			Double precoColuna   =  (Double) valorColuna;
+			Double precoDigitado =  Double.valueOf(textoDigitado);
 			return precoColuna.compareTo(precoDigitado) < 0;
 
 		} catch (NumberFormatException e) {
