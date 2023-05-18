@@ -21,6 +21,17 @@
 	<div id="cabecalho">
 		<h:graphicImage library="img" name="logo.png" />
 
+		<p:growl id="messages" showDetail="true" autoUpdate="true" />
+
+		<h:form style="margin:10px 0 10px 0">
+			<p:menuButton value="Opções" rendered="#{usuarioLogado != null}" >
+				<p:menuitem value="Autores" action="autor?faces-redirect=true"  immediate="true" update="@all" />
+				<p:menuitem value="Livros"  action="livro?faces-redirect=true"  immediate="true" update="@all" />
+				<p:separator />
+				<p:menuitem value="Logout" action="#{loginBean.deslogar}" />
+			</p:menuButton>
+		</h:form>
+
 		<h:form rendered="#{usuarioLogado != null}">
 			<p:commandLink value="Logout" action="#{loginBean.deslogar}" />
 		</h:form>

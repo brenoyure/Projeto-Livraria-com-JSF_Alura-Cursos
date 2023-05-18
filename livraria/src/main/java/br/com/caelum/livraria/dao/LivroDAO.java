@@ -68,8 +68,12 @@ public class LivroDAO {
 	}
 
 	public List<Livro> listaTodosPaginada(int firstResult, int maxResults) {
-		CriteriaQuery<Livro> query = em.getCriteriaBuilder().createQuery(Livro.class);
-		query.select(query.from(Livro.class));
+		var cb      = em.getCriteriaBuilder();
+		var query   = cb.createQuery(Livro.class);
+		var root    = query.from(Livro.class);
+		query.select(root);
+
+		root.fetch("autores");
 
 		return em.createQuery(query)
 				.setFirstResult(firstResult)
@@ -82,6 +86,8 @@ public class LivroDAO {
 		var query   = cb.createQuery(Livro.class);
 		var root    = query.from(Livro.class);
 		query.select(root);
+
+		root.fetch("autores", JoinType.INNER);
 
 		if (valorDigitado != null)
 			query.where(
