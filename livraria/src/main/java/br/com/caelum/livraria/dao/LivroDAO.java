@@ -73,7 +73,7 @@ public class LivroDAO {
 		var root    = query.from(Livro.class);
 		query.select(root);
 
-		root.fetch("autores");
+//		root.fetch("autores");
 
 		return em.createQuery(query)
 				.setFirstResult(firstResult)
@@ -87,7 +87,7 @@ public class LivroDAO {
 		var root    = query.from(Livro.class);
 		query.select(root);
 
-		root.fetch("autores", JoinType.INNER);
+		root.join("autores", JoinType.INNER);
 
 		if (valorDigitado != null)
 			query.where(

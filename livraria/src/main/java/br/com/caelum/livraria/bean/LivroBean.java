@@ -17,7 +17,6 @@ import br.com.caelum.livraria.dao.AutorDAO;
 import br.com.caelum.livraria.dao.LivroDAO;
 import br.com.caelum.livraria.modelo.Autor;
 import br.com.caelum.livraria.modelo.Livro;
-import br.com.caelum.livraria.modelo.LivroDataModel;
 import br.com.caelum.livraria.util.ForwardView;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,12 +39,13 @@ public class LivroBean implements Serializable {
 	private LivroDAO livroDao;
 
 	private List<Livro> livros;
-
-	@Inject @Getter
-	private LivroDataModel livroDataModel;
+	
+	@Inject @Getter @Setter
+	private LivroLazyDataModel dataModel;
 
 	@Inject
 	private AutorDAO autorDao;
+	
 
 	public ForwardView gravar() {
 
