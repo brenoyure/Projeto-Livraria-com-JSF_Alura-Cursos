@@ -55,27 +55,6 @@
 
 			</p:dataList>
 
-			<p:fieldset legend="Autores Cadastrados">
-				<h:dataTable id="tabelaAutores" value="#{autorBean.autores}" var="autor" >
-					<h:column>
-						<f:facet name="header">Nome</f:facet>
-						<h:outputText value="#{autor.nome}" />
-					</h:column>
-					<h:column>
-						<f:facet name="header">Exibir</f:facet>
-						<p:commandLink update=":formAutor">
-							 <h:outputText styleClass="ui-icon pi pi-search" style="margin:0 auto;" />
-							<f:setPropertyActionListener value="#{autor}" target="#{autorBean.autor}" />
-						</p:commandLink>
-					</h:column>
-					<h:column>
-						<f:facet name="header">Remover</f:facet>
-						<h:commandLink value="X" actionListener="#{autorBean.remover(autor)}">
-							<f:ajax render="@all" />
-						</h:commandLink>
-					</h:column>
-				</h:dataTable>
-			</p:fieldset>
 		</h:form>
 
 	</ui:define>
