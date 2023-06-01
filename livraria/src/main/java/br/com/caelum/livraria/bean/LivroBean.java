@@ -45,12 +45,15 @@ public class LivroBean implements Serializable {
 
 	@Inject
 	private AutorDAO autorDao;
-	
+
+	@Inject
+	private FacesContext context;
+
 
 	public ForwardView gravar() {
 
 		if (livro.getAutores().isEmpty()) {
-			FacesContext.getCurrentInstance().addMessage("autor", new FacesMessage(FacesMessage.SEVERITY_WARN, "Livro deve ter pelo menos um Autor.", null));
+			context.addMessage("autor", new FacesMessage(FacesMessage.SEVERITY_WARN, "Livro deve ter pelo menos um Autor.", null));
 			return null;
 		}
 

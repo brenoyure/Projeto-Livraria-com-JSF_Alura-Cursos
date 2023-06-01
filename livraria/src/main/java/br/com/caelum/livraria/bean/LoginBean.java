@@ -36,6 +36,9 @@ public class LoginBean implements Serializable {
 	@Getter
 	private Usuario usuario = new Usuario();
 
+	@Inject
+	private FacesContext context;
+
 	/**
 	 * <p>
 	 *	Efetua o Login do usuário, verificando antes se este existe ou não no banco de dados.
@@ -54,8 +57,6 @@ public class LoginBean implements Serializable {
 	 * @return redirect to livro.xhtml
 	 */
 	public String efetuarLogin() {
-
-		FacesContext context = FacesContext.getCurrentInstance();
 
 		if (usuarioExiste(usuario)) {
 //			System.out.println("Efetuando Login do Usuário " + usuario.getEmail());
@@ -84,7 +85,6 @@ public class LoginBean implements Serializable {
 	 * @return Página de Login
 	 */
 	public String deslogar() {
-		FacesContext context = FacesContext.getCurrentInstance();
 		context.getExternalContext().getSessionMap().remove("usuarioLogado");
 		return "login?faces-redirect=true";
 	}
